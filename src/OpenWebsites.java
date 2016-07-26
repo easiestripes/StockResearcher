@@ -76,5 +76,6 @@ public class OpenWebsites {
             ticker = input.next();
             System.out.println();
         }
+        input.close();
     }
 }
