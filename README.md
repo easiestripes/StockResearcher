@@ -1,0 +1,1 @@
+I made this to be more efficient while researching different companies stock. It prompts the user for a stock ticker. Once entered, it will open a new browser window with all the URLs I personally use to research certain indicators of a company's stock.
