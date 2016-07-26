@@ -6,12 +6,9 @@ import edu.stanford.ejalbert.exception.UnsupportedOperatingSystemException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-/**
- * TODO:
- * Put URLs in an array, then loop through it to open all webpages to make it easier to add more websites later on
- */
-
 public class OpenWebsites {
+
+    private static String[] webpages;
 
     public static void main(String[] args) throws Exception {
         Scanner input = new Scanner(System.in);
@@ -23,30 +20,34 @@ public class OpenWebsites {
         while(ticker != "0" && ticker != null) {
             ticker = ticker.toUpperCase(); // proper ticker format
 
+            // Initialize webpages array; add any other URLs you like to use to this array
+            webpages = new String[] {"http://www.marketwatch.com/investing/stock/" + ticker + "/analystestimates",
+                                    "https://ycharts.com/companies/" + ticker,
+                                    "https://ycharts.com/companies/" + ticker + "/fundamental_check",
+                                    "https://ycharts.com/companies/" + ticker + "/value_check",
+                                    "https://ycharts.com/companies/" + ticker + "/return_on_equity",
+                                    "https://ycharts.com/companies/" + ticker + "/return_on_invested_capital"
+                                    };
+
             BrowserLauncher browserLauncher;
 
             // Open all the websites for this ticker
             try {
                 browserLauncher = new BrowserLauncher(null);
-                // set browserLauncher to open a new window
+                // Set browserLauncher to open a new window
                 browserLauncher.setNewWindowPolicy(true);
-
-                browserLauncher.openURLinBrowser("http://www.marketwatch.com/investing/stock/" + ticker + "/analystestimates");
-                // delays are necessary to ensure URLs open a new window at first, then open rest in that same new window
+                // Open first webpage in the new window
+                browserLauncher.openURLinBrowser(webpages[0]);
+                // Delays are necessary to ensure URLs open a new window at first, then open rest in that same new window
                 TimeUnit.SECONDS.sleep(1);
-
-                // set browserLauncher to open new tabs in same window
+                // Set browserLauncher to open new tabs in same window
                 browserLauncher.setNewWindowPolicy(false);
-                TimeUnit.SECONDS.sleep(1);
-                browserLauncher.openURLinBrowser("https://ycharts.com/companies/" + ticker);
-                TimeUnit.SECONDS.sleep(1);
-                browserLauncher.openURLinBrowser("https://ycharts.com/companies/" + ticker + "/fundamental_check");
-                TimeUnit.SECONDS.sleep(1);
-                browserLauncher.openURLinBrowser("https://ycharts.com/companies/" + ticker + "/value_check");
-                TimeUnit.SECONDS.sleep(1);
-                browserLauncher.openURLinBrowser("https://ycharts.com/companies/" + ticker + "/return_on_equity");
-                TimeUnit.SECONDS.sleep(1);
-                browserLauncher.openURLinBrowser("https://ycharts.com/companies/" + ticker + "/return_on_invested_capital");
+
+                // Open the remaining webpages
+                for(int i = 1; i < webpages.length; i++) {
+                    TimeUnit.SECONDS.sleep(1);
+                    browserLauncher.openURLinBrowser(webpages[i]);
+                }
             } catch (BrowserLaunchingInitializingException e) {
                 e.printStackTrace();
             } catch (UnsupportedOperatingSystemException e) {
