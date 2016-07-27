@@ -10,7 +10,7 @@ public class OpenWebsites {
 
     private static String[] webpages;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws InterruptedException {
         Scanner input = new Scanner(System.in);
 
         System.out.print("Enter a stock ticker: ");
@@ -26,7 +26,8 @@ public class OpenWebsites {
                                     "https://ycharts.com/companies/" + ticker + "/fundamental_check",
                                     "https://ycharts.com/companies/" + ticker + "/value_check",
                                     "https://ycharts.com/companies/" + ticker + "/return_on_equity",
-                                    "https://ycharts.com/companies/" + ticker + "/return_on_invested_capital"
+                                    "https://ycharts.com/companies/" + ticker + "/return_on_invested_capital",
+                                    "https://ycharts.com/companies/" + ticker + "/debt_equity_ratio"
                                     };
 
             BrowserLauncher browserLauncher;
@@ -48,9 +49,7 @@ public class OpenWebsites {
                     TimeUnit.SECONDS.sleep(1);
                     browserLauncher.openURLinBrowser(webpages[i]);
                 }
-            } catch (BrowserLaunchingInitializingException e) {
-                e.printStackTrace();
-            } catch (UnsupportedOperatingSystemException e) {
+            } catch (BrowserLaunchingInitializingException | UnsupportedOperatingSystemException e) {
                 e.printStackTrace();
             }
 
